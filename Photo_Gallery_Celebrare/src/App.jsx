@@ -1,32 +1,41 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState,
+} from "react";
 import Loader from "./components/Loader";
 import useFetchPhotos from "./hooks/useFetchPhotos";
 import { FaRegHeart, FaHeart } from "react-icons/fa6";
 
 const App = () => {
-  // Data comes from the  my custom  hook  named as useFetchPhots
+  // Data comes from the custom hook (renamed so the rest of your code stays the same)
   const { photos: img, loading: isLoading, error } = useFetchPhotos(30);
   const [query, setQuery] = useState("");
 
-  const searchUser = (e) => {
-    // Dynamically update the query state with the input box's current value( As my user types)
+  // useCallback: keeps the same function reference between renders
+  const searchUser = useCallback((e) => {
+    // Dynamically update the query state with the input box's current value
     setQuery(e.target.value);
-  };
+  }, []);
 
-  // Filter the images according to the user's typed query...
-  const filteredImg = img.filter((val) =>
-    val.author.toLowerCase().includes(query.toLowerCase()),
+  // useMemo: basically it  only re-filters when `img` or `query` changes
+  const filteredImg = useMemo(
+    () =>
+      img.filter((val) =>
+        val.author.toLowerCase().includes(query.toLowerCase()),
+      ),
+    [img, query],
   );
 
   // Reducer: pure function, only returns the new favourites list (array of photo ids)
   const reducer = (state, action) => {
-    switch (
-      action.type // we could go with if else too ,
-    ) {
+    switch (action.type) {
       case "toggleFav":
         return state.includes(action.id)
-          ? state.filter((id) => id !== action.id) // already fav -> remove it no need to include
-          : [...state, action.id]; // not fav -> add it to our local storagte
+          ? state.filter((id) => id !== action.id) // already fav -> remove
+          : [...state, action.id]; // not fav -> add
       default:
         return state;
     }
@@ -41,7 +50,7 @@ const App = () => {
     }
   });
 
-  // Save favourites to localStorage whenever they change
+  // we need to set  favourites to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favs));
   }, [favs]);
