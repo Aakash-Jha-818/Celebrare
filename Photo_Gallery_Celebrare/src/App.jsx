@@ -1,22 +1,16 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useState,
-} from "react";
+import React, {useCallback,useEffect,useMemo,useReducer,useState,} from "react";
 import Loader from "./components/Loader";
 import useFetchPhotos from "./hooks/useFetchPhotos";
 import { FaRegHeart, FaHeart } from "react-icons/fa6";
 
 const App = () => {
-  // Data comes from the custom hook (renamed so the rest of your code stays the same)
+  // Data comes from the custom hoom (named as useFetchPhotos)
   const { photos: img, loading: isLoading, error } = useFetchPhotos(30);
   const [query, setQuery] = useState("");
 
   // useCallback: keeps the same function reference between renders
   const searchUser = useCallback((e) => {
-    // Dynamically update the query state with the input box's current value
+    // Dynamically update the query state with the input box's current value( bacially whenver user types in it)
     setQuery(e.target.value);
   }, []);
 
@@ -29,7 +23,7 @@ const App = () => {
     [img, query],
   );
 
-  // Reducer: pure function, only returns the new favourites list (array of photo ids)
+  // Reducer: pure function, only returns the new favourites list (array of photo ids )
   const reducer = (state, action) => {
     switch (action.type) {
       case "toggleFav":
@@ -41,7 +35,7 @@ const App = () => {
     }
   };
 
-  // Lazy initial state: read saved favourites from localStorage on first load
+  // Lazy initial state: read saved favourites from localStorage on first load and to save in our browser local storage
   const [favs, dispatch] = useReducer(reducer, [], () => {
     try {
       return JSON.parse(localStorage.getItem("favorites")) || [];
