@@ -1,6 +1,6 @@
 # Photo Gallery
 
-A React photo gallery built as an assignment for **[ORGANISATION NAME]**.
+A React photo gallery built as an assignment for **[Celebrare]**.
 It fetches photos from the Picsum API, lets you search by author, and lets you mark photos as favourites that stay saved even after a page refresh.
 
 ## Features
@@ -120,8 +120,8 @@ To check it: open DevTools, go to **Application > Local Storage**, and look for 
 **[Aakash Jha]**
 Submitted to **[Celebrare]**
 
-- GitHub: [your-username](https://github.com/your-username)
-- Email: your.email@example.com
+- GitHub: [your-username](https://github.com/Aakash-Jha-818)
+- Email: aakashjha819@gmail.com
 
 ## License
 
